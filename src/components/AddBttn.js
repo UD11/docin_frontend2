@@ -21,7 +21,7 @@ const AddButton = () => {
   return (
     <button
       onClick={handleAddButtonClick}
-      className="fixed bottom-16 right-16 w-20 h-20 bg-blue-500 text-white rounded-full shadow-lg flex items-center justify-center"
+      className="fixed bottom-16 right-16 w-20 h-20 bg-[#B1B2FF] text-white rounded-full shadow-lg flex items-center justify-center"
     >
       <PlusIcon className="w-12 h-12 text-white absolute left-4" />
     </button>

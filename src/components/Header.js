@@ -23,7 +23,7 @@ const HeaderMessage = () => {
   }, []);
 
   return (
-    <div className="text-center mt-10 text-gray-800 text-5xl font-semibold font-mono">
+    <div className="text-center mt-10 text-[#B1B2FF] text-5xl font-semibold font-mono">
       {text}
     </div>
   );

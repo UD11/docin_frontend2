@@ -5,9 +5,6 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import Navbar from './components/NavBar';
-import SearchBar from './components/SearchBar';
-import HeaderMessage from './components/Header';
 import AddButton from './components/AddBttn';
 import Home from './components/Home';
 import AddPage from './components/AddPage';
