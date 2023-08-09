@@ -21,7 +21,7 @@ const SearchBar = () => {
           onChange={(e) => sethomeSearch(e.target.value)}
           placeholder="Search..."
           autoFocus
-          className="w-full px-6 py-4 rounded-full bg-[#D2DAFF] text-[#FDE2F3] placeholder-[#2A2F4F] focus:outline-none focus:ring-2 focus:ring-[#B1B2FF]"
+          className="w-full px-6 py-4 rounded-full bg-[#D2DAFF] text-black placeholder-[#2A2F4F] focus:outline-none focus:ring-2 focus:ring-[#B1B2FF]"
         />
         <button
           type="submit"
