@@ -1,15 +1,47 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@apollo/client"; // Import useMutation from Apollo Client
+import gql from "graphql-tag"; // Import gql from graphql-tag
+
+const CREATE_PDF_MUTATION = gql`
+  mutation CreatePDF(
+    $title: String!
+    $description: String!
+    $link: String!
+    $author: String!
+    $institution_name: String!
+  ) {
+    createPdf(
+      title: $title
+      description: $description
+      link: $link
+      author: $author
+      institutionName: $institution_name
+    ) {
+      pdf {
+        author
+        createdAt
+        description
+        downvote
+        id
+        institutionName
+        link
+        title
+        upvote
+      }
+    }
+  }
+`;
 
 const AddPage = () => {
-  const [authorName, setAuthorName] = useState('');
-  const [institution, setInstitution] = useState('');
-  const [link, setLink] = useState('');
-  const [description, setDescription] = useState('');
-  const [title, setTitle] = useState('');
+  const [authorName, setAuthorName] = useState("");
+  const [institution, setInstitution] = useState("");
+  const [link, setLink] = useState("");
+  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [createPdf] = useMutation(CREATE_PDF_MUTATION);
   const navigate = useNavigate();
 
   const handleSave = async () => {
@@ -23,21 +55,24 @@ const AddPage = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8000/api/pdfs/', data);
-      console.log('PDF added successfully:', response.data);
+      const response = await createPdf({
+        variables: data,
+      });
+
+      console.log("PDF added successfully:", response.data.createPdf.pdf);
       setShowSuccessModal(true);
       setTimeout(() => {
         setIsSaving(false);
         setShowSuccessModal(false);
-        navigate('/');
+        navigate("/");
       }, 1500);
     } catch (error) {
-      console.error('Error adding PDF:', error);
+      console.error("Error adding PDF:", error);
     }
   };
 
   const handleCancel = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -45,7 +80,10 @@ const AddPage = () => {
       <div className="bg-[#D2DAFF] p-6 rounded-lg shadow-lg w-4/5 h-4/5">
         <h2 className="text-3xl font-semibold mb-6 font-mono">Add Entry</h2>
         <div className="mb-6">
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2 ">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700 mb-2 "
+          >
             Title
           </label>
           <input
@@ -57,8 +95,11 @@ const AddPage = () => {
             className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#EEF1FF]"
           />
         </div>
-         <div className="mb-6">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="mb-6">
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Description
           </label>
           <textarea
@@ -71,7 +112,10 @@ const AddPage = () => {
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="authorName" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="authorName"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Author Name
           </label>
           <input
@@ -84,7 +128,10 @@ const AddPage = () => {
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="institution" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="institution"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Institution
           </label>
           <input
@@ -97,7 +144,10 @@ const AddPage = () => {
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="link" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="link"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Link
           </label>
           <input
@@ -113,11 +163,13 @@ const AddPage = () => {
           <button
             onClick={handleSave}
             className={`${
-              isSaving ? 'bg-blue-500' : 'bg-[#B1B2FF] hover:bg-[#EEF1FF] hover:text-[#2A2F4F]'
+              isSaving
+                ? "bg-blue-500"
+                : "bg-[#B1B2FF] hover:bg-[#EEF1FF] hover:text-[#2A2F4F]"
             } text-white px-6 py-3 rounded-lg mr-2 transition-colors duration-300`}
             disabled={isSaving}
           >
-            {isSaving ? 'Saving...' : 'Save'}
+            {isSaving ? "Saving..." : "Save"}
           </button>
           <button
             onClick={handleCancel}
@@ -156,9 +208,11 @@ const AlertsSuccess = () => {
           d="M5 13l4 4L19 7"
         ></path>
       </svg>
-      <h3 className="text-lg font-semibold mb-2">Project was added successfully!</h3>
+      <h3 className="text-lg font-semibold mb-2">
+        Project was added successfully!
+      </h3>
       <p className="text-gray-600">
-        Manage all available projects from your{' '}
+        Manage all available projects from your{" "}
         <a
           className="underline text-emerald-600 hover:text-emerald-400"
           href="#"

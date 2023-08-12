@@ -1,42 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
 import { FaArrowUp, FaArrowDown, FaSearch } from 'react-icons/fa';
+import {gql,useLazyQuery } from '@apollo/client';
 
+const SEARCH_QUERY = gql`
+  query SearchPDF($query: String!) {
+    searchPdfs(query: $query) {
+      id
+      title
+      author
+      createdAt
+      description
+      institutionName
+      link
+      upvote
+      downvote
+    }
+  }
+`
 const SearchResult = () => {
-  // State to store the search query and search results
+
   const [searchResults, setSearchResults] = useState([]);
   const location = useLocation();
   const homesearch = new URLSearchParams(location.search).get('q');
   const [searchQuery, setSearchQuery] = useState(homesearch || '');
+  const [executeSearch, { loading, data }] = useLazyQuery(SEARCH_QUERY);
 
-  // Function to handle search
+
   useEffect(() => {
     if (homesearch) {
-      axios
-        .get(`http://localhost:8000/api/pdfs/search/?search=${homesearch}`)
-        .then((response) => {
-          setSearchResults(response.data);
-        })
-        .catch((error) => {
-          console.error('Error searching PDFs:', error);
-        });
+      executeSearch({ variables: { query: homesearch } });
     }
-  }, [homesearch]);
+  }, [executeSearch, homesearch]);
+
+  useEffect(() => {
+    if (data && data.searchPdfs) {
+      setSearchResults(data.searchPdfs);
+    }
+  }, [data]);
+
 
   const handleSearch = () => {
-    axios
-      .get(`http://localhost:8000/api/pdfs/search/?search=${searchQuery}`)
-      .then((response) => {
-        setSearchResults(response.data);
-      })
-      .catch((error) => {
-        console.error('Error searching PDFs:', error);
-      });
+    executeSearch({ variables: { query: searchQuery } });
   };
 
-  // State to keep track of upvotes and downvotes count
   const [counts, setCounts] = useState([]);
 
   const handleUpvote = (id)=>{

@@ -19,9 +19,10 @@ const SocialIcons = () => {
           rel="noopener noreferrer"
           className="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
         >
-          <div className="w-16 h-10 text-3xl text-[#B1B2FF] hover:text-[#2A2F4F]">
+          <div className="w-10 h-10 text-3xl text-[#7e7fd8] hover:text-[#2A2F4F]">
             {link.icon}
           </div>
+          {/* {link.icon} */}
         </a>
       ))}
     </div>
