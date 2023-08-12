@@ -58,6 +58,7 @@ const SearchResult = () => {
   }
 
   return (
+    <div className="fixed top-0 left-0 w-screen h-screen">
     <div className="p-8 bg-[#EEF1FF] h-full">
       <div className="relative my-4">
         <div className="flex items-center ">
@@ -128,6 +129,7 @@ const SearchResult = () => {
           </div>
         </div>
       ))}
+    </div>
     </div>
   );
 };
