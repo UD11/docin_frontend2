@@ -2,22 +2,12 @@ import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 import { useMutation } from "@apollo/client";
-import gql from "graphql-tag"; // Import gql from graphql-tag
-
-export const REGISTER_MUTATION = gql`
-  mutation CreateUserMutation(
-    $email: String!
-    $password: String!
-    $username: String!
-  ) {
-    createUser(email: $email, password: $password, username: $username) {
-      success
-    }
-  }
-`;
+import { REGISTER_MUTATION } from "../graphql";
 
 const SignupForm = () => {
-  const [name, setName] = useState("");
+  const [firstname, setfirstName] = useState("");
+  const [lastname, setlastName] = useState("");
+  const [username, setuserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [registerMutation, { loading, error }] = useMutation(REGISTER_MUTATION);
@@ -26,11 +16,12 @@ const SignupForm = () => {
   const handleSignup = async () => {
     try {
       const { data } = await registerMutation({
-        variables: { email, password, username: name },
+        variables: { email, password, username, firstname,lastname },
       });
 
-      if (data.createUser.success) {
-        navigate("/");
+      if (data.signup.success) {
+        console.log("signed up successfully")
+        navigate("/login");
       }
     } catch (error) {
       console.error("Signup error:", error);
@@ -50,13 +41,39 @@ const SignupForm = () => {
           <div className="mb-4">
             <label className="block mb-1 font-medium text-gray-700">
               <FaUser className="inline-block mr-2 text-[#A7727D]" />
-              Name
+              First Name
             </label>
             <input
               type="text"
               className="w-full p-3 bg-gray-100 rounded border border-solid border-[#A7727D] pl-10"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={firstname}
+              onChange={(e) => setfirstName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1 font-medium text-gray-700">
+              <FaUser className="inline-block mr-2 text-[#A7727D]" />
+              Last Name
+            </label>
+            <input
+              type="text"
+              className="w-full p-3 bg-gray-100 rounded border border-solid border-[#A7727D] pl-10"
+              value={lastname}
+              onChange={(e) => setlastName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1 font-medium text-gray-700">
+              <FaUser className="inline-block mr-2 text-[#A7727D]" />
+              username
+            </label>
+            <input
+              type="text"
+              className="w-full p-3 bg-gray-100 rounded border border-solid border-[#A7727D] pl-10"
+              value={username}
+              onChange={(e) => setuserName(e.target.value)}
               required
             />
           </div>
@@ -87,7 +104,8 @@ const SignupForm = () => {
             />
           </div>
           <button
-            type="submit"
+            type="button"
+            onClick={handleSignup}
             className="w-full bg-[#A7727D] text-white py-3 rounded hover:bg-[#F9F5E7] hover:text-[#A7727D] transition-colors border border-solid border-[#A7727D]"
           >
             Sign Up

@@ -2,12 +2,33 @@ import React, { useState } from "react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import logo from "../icons/docin-web-removebg-preview.png";
+import { useNavigate } from "react-router-dom";
+import { SIGNOUT_MUTATION } from "../graphql";
+import { useMutation } from "@apollo/client";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+  const [signoutmutation, { loading, error }] = useMutation(SIGNOUT_MUTATION);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleSignout = async () => {
+    try {
+      const { data } = await signoutmutation();
+
+      if (data.signout.success) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userid");
+        navigate("/login");
+      } else {
+        console.log("Signout failed.");
+      }
+    } catch (error) {
+      console.error("Signout error:", error);
+    }
   };
 
   const username = "John Doe"; // Replace with actual username
@@ -43,43 +64,43 @@ const Navbar = () => {
                   >
                     Sign Up
                   </Link>
-                  <Link
-                    to="/signout"
-                    className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  <button
+                    onClick={handleSignout}
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none"
                   >
-                    Sign Out
-                  </Link>
+                    Signout
+                  </button>
                 </div>
               )}
             </div>
           </div>
-          <div className="md:hidden flex items-center">
+          {/* <div className="md:hidden flex items-center">
             <button onClick={toggleDropdown} className="focus:outline-none">
               <UserCircleIcon className="w-10 h-10 text-[#EDDBC7]" />
             </button>
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 py-2 w-48 bg-white border border-gray-300 rounded shadow-lg">
-                <Link
-                  to="/signin"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                <button
+                  onClick={() => navigate("/signin")}
+                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none"
                 >
                   Sign In
-                </Link>
-                <Link
-                  to="/signup"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                </button>
+                <button
+                  onClick={() => navigate("/signup")}
+                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none"
                 >
                   Sign Up
-                </Link>
-                <Link
-                  to="/signout"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                </button>
+                <button
+                  onClick={handleSignout}
+                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none"
                 >
                   Sign Out
-                </Link>
+                </button>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </nav>

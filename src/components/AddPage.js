@@ -1,37 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client"; // Import useMutation from Apollo Client
-import gql from "graphql-tag"; // Import gql from graphql-tag
+import { CREATE_PDF_MUTATION } from "../graphql";
 
-const CREATE_PDF_MUTATION = gql`
-  mutation CreatePDF(
-    $title: String!
-    $description: String!
-    $link: String!
-    $author: String!
-    $institution_name: String!
-  ) {
-    createPdf(
-      title: $title
-      description: $description
-      link: $link
-      author: $author
-      institutionName: $institution_name
-    ) {
-      pdf {
-        author
-        createdAt
-        description
-        downvote
-        id
-        institutionName
-        link
-        title
-        upvote
-      }
-    }
-  }
-`;
 
 const AddPage = () => {
   const [authorName, setAuthorName] = useState("");

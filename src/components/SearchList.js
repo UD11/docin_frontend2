@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FaArrowUp, FaArrowDown, FaSearch } from "react-icons/fa";
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery,useMutation } from "@apollo/client";
+import { UPVOTE_QUERY } from "../graphql";
+import { DOWNVOTE_QUERY } from "../graphql";
+import { SEARCH_QUERY } from "../graphql";
 
-const SEARCH_QUERY = gql`
-  query SearchPDF($query: String!) {
-    searchPdfs(query: $query) {
-      id
-      title
-      author
-      createdAt
-      description
-      institutionName
-      link
-      upvote
-      downvote
-    }
-  }
-`;
+
 
 const SearchResult = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -25,6 +14,8 @@ const SearchResult = () => {
   const homesearch = new URLSearchParams(location.search).get("q");
   const [searchQuery, setSearchQuery] = useState(homesearch || "");
   const [executeSearch, { loading, data }] = useLazyQuery(SEARCH_QUERY);
+  const [upvotePdf, { loading: upvoteLoading, error: upvoteError }] = useMutation(UPVOTE_QUERY);
+  const [downvotePdf, { loading: downvoteLoading, error: downvoteError }] = useMutation(DOWNVOTE_QUERY);
 
   useEffect(() => {
     if (homesearch) {
@@ -45,13 +36,17 @@ const SearchResult = () => {
   const [counts, setCounts] = useState([]);
 
   const handleUpvote = (id) => {
-    console.log("upvoted");
-    console.log("the id is", id);
+
+    upvotePdf({
+      variables: { id: parseInt(id) },
+    });
   };
 
   const handleDownvote = (id) => {
-    console.log("downvoted");
-    console.log("the downvote id", id);
+    console.log(parseInt(id))
+    downvotePdf({
+      variables: { id: parseInt(id) },
+    });
   };
 
   return (
@@ -108,7 +103,7 @@ const SearchResult = () => {
                     <FaArrowUp className="w-6 h-6 md:w-4 md:h-4 text-[#0D7377]" />
                   </button>
                   <span className="mx-1 text-[#2A2F4F]">
-                    {counts[index] || 0}
+                    {result.upvote}
                   </span>
                   <button
                     className="py-2 px-4 mr-4 text-[#2A2F4F] font-mono focus:outline-none border border-[#2A2F4F] rounded-full p-1 transition duration-300 ease-in-out hover:bg-[#F8EAD8] bg-opacity-75"
@@ -117,7 +112,7 @@ const SearchResult = () => {
                     <FaArrowDown className="w-6 h-6 md:w-4 md:h-4 text-[#E63E6D]" />
                   </button>
                   <span className="mx-1 text-[#2A2F4F]">
-                    {counts[index] || 0}
+                    {result.downvote}
                   </span>
                 </div>
                 <p className="text-[#2A2F4F] mb-2">{result.link}</p>
