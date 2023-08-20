@@ -65,7 +65,7 @@ const AddPage = () => {
         setIsSaving(false);
         setShowSuccessModal(false);
         navigate("/");
-      }, 1500);
+      }, 1000);
     } catch (error) {
       console.error("Error adding PDF:", error);
     }
@@ -76,9 +76,11 @@ const AddPage = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-[#EEF1FF] bg-opacity-75 flex items-center justify-center">
-      <div className="bg-[#D2DAFF] p-6 rounded-lg shadow-lg w-4/5 h-4/5">
-        <h2 className="text-3xl font-semibold mb-6 font-mono">Add Entry</h2>
+    <div className="fixed inset-0 bg-[#F8EAD8] bg-opacity-75 flex items-center justify-center">
+      <div className="bg-[#EDDBC7] p-6 rounded-lg shadow-lg w-4/5 h-4/5">
+        <h2 className="text-3xl text-[#A7727D] font-semibold mb-6 font-mono">
+          Add Entry
+        </h2>
         <div className="mb-6">
           <label
             htmlFor="title"
@@ -92,7 +94,7 @@ const AddPage = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter title"
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#EEF1FF]"
+            className="mt-1 block w-full p-3 border border-[#A7727D]  shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#F8EAD8]"
           />
         </div>
         <div className="mb-6">
@@ -108,7 +110,7 @@ const AddPage = () => {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter description"
             rows={4}
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#EEF1FF]"
+            className="mt-1 block w-full p-3 border border-[#A7727D]  shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#F8EAD8]"
           />
         </div>
         <div className="mb-6">
@@ -124,7 +126,7 @@ const AddPage = () => {
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
             placeholder="Enter author name"
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#EEF1FF]"
+            className="mt-1 block w-full p-3 border border-[#A7727D]  shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#F8EAD8]"
           />
         </div>
         <div className="mb-6">
@@ -140,7 +142,7 @@ const AddPage = () => {
             value={institution}
             onChange={(e) => setInstitution(e.target.value)}
             placeholder="Enter institution"
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#EEF1FF]"
+            className="mt-1 block w-full p-3 border border-[#A7727D]  shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#F8EAD8]"
           />
         </div>
         <div className="mb-6">
@@ -156,7 +158,7 @@ const AddPage = () => {
             value={link}
             onChange={(e) => setLink(e.target.value)}
             placeholder="Enter link"
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#EEF1FF]"
+            className="mt-1 block w-full p-3 border border-[#A7727D]  shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#F8EAD8]"
           />
         </div>
         <div className="flex justify-end">
@@ -164,8 +166,8 @@ const AddPage = () => {
             onClick={handleSave}
             className={`${
               isSaving
-                ? "bg-blue-500"
-                : "bg-[#B1B2FF] hover:bg-[#EEF1FF] hover:text-[#2A2F4F]"
+                ? "bg-[blue-500]"
+                : "bg-[#A7727D] hover:bg-[#A7727D] hover:text-[#2A2F4F]"
             } text-white px-6 py-3 rounded-lg mr-2 transition-colors duration-300`}
             disabled={isSaving}
           >
@@ -193,34 +195,38 @@ const AddPage = () => {
 
 const AlertsSuccess = () => {
   return (
-    <div className="text-center">
-      <svg
-        className="hi-solid hi-check-circle w-12 h-12 mx-auto text-emerald-500 mb-4"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M5 13l4 4L19 7"
-        ></path>
-      </svg>
-      <h3 className="text-lg font-semibold mb-2">
-        Project was added successfully!
-      </h3>
-      <p className="text-gray-600">
-        Manage all available projects from your{" "}
-        <a
-          className="underline text-emerald-600 hover:text-emerald-400"
-          href="#"
-        >
-          personal dashboard
-        </a>
-        .
-      </p>
+    <div className="fixed inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 bg-gray-800 opacity-50"></div>
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-white rounded-lg shadow-lg transform transition-all hover:scale-105">
+          <div className="p-6 space-y-6">
+            <svg
+              className="w-12 h-12 text-green-500 mx-auto"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              // xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            <h3 className="text-2xl font-semibold text-center mb-2">
+              Project Added Successfully
+            </h3>
+            <p className="text-gray-600 text-center">
+              You can manage all available projects from your{" "}
+              <a className="text-emerald-600 hover:text-emerald-400" href="#">
+                personal dashboard
+              </a>
+              .
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
