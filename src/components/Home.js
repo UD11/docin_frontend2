@@ -13,7 +13,9 @@ const Home = () => {
       <NavBar />
       <Header />
       <SearchBar />
-      <CardList />
+      <div>
+        <CardList/>
+      </div>
       <SocialIcons />
       <AddButton />
     </div>

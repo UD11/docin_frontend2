@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom"; // Import Link from react-
 import { useMutation } from "@apollo/client";
 import { REGISTER_MUTATION } from "../graphql";
 
+
 const SignupForm = () => {
   const [firstname, setfirstName] = useState("");
   const [lastname, setlastName] = useState("");
