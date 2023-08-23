@@ -1,4 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { USER_POST_QUERY } from "../graphql";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import List_custom from "./list";
+import { UPVOTE_QUERY } from "../graphql";
+import { DOWNVOTE_QUERY } from "../graphql";
 
 const Card = ({ title, description, author, institution, link }) => {
   return (
@@ -26,45 +32,45 @@ const Card = ({ title, description, author, institution, link }) => {
 };
 
 const CardList = () => {
-  const cardData = [
-    {
-      title: "Title 1 with a very long title that needs to be truncated",
-      description:
-        "Description 1 with a very long description that needs to be truncated",
-      author: "Author 1",
-      institution: "Institution 1",
-      link: "https://example.com/1",
-    },
-    {
-      title: "Title 2 with a very long title that needs to be truncated",
-      description:
-        "Description 2 with a very long description that needs to be truncated",
-      author: "Author 2",
-      institution: "Institution 2",
-      link: "https://example.com/2",
-    },
-    {
-      title: "Title 3 with a very long title that needs to be truncated",
-      description:
-        "Description 3 with a very long description that needs to be truncated",
-      author: "Author 3",
-      institution: "Institution 3",
-      link: "https://example.com/3",
-    },
-    {
-      title: "Title 4 with a very long title that needs to be truncated",
-      description:
-        "Description 4 with a very long description that needs to be truncated",
-      author: "Author 4",
-      institution: "Institution 4",
-      link: "https://example.com/4",
-    },
-    // ... other card data
-  ];
+  const userid = localStorage.getItem("userid");
+  const [searchpdf, { data }] = useLazyQuery(USER_POST_QUERY);
+  const [pdfs, setpdfs] = useState([]);
+  const [upvotePdf, { loading: upvoteLoading, error: upvoteError }] =
+    useMutation(UPVOTE_QUERY);
+  const [downvotePdf, { loading: downvoteLoading, error: downvoteError }] =
+    useMutation(DOWNVOTE_QUERY);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await searchpdf();
+    };
+
+    fetchData();
+  }, [searchpdf]);
+
+  useEffect(() => {
+    if (data && data.searchPdfsByUser) {
+      console.log(data.searchPdfsByUser);
+      setpdfs(data.searchPdfsByUser);
+    }
+  }, [data]);
+
+  const handleUpvote = (id) => {
+    upvotePdf({
+      variables: { id: parseInt(id) },
+    });
+  };
+
+  const handleDownvote = (id) => {
+    console.log(parseInt(id));
+    downvotePdf({
+      variables: { id: parseInt(id) },
+    });
+  };
 
   return (
     <div className="flex flex-wrap justify-center p-4">
-      {cardData.map((card, index) => (
+      {pdfs.map((card, index) => (
         <Card
           key={index}
           title={card.title}
@@ -75,6 +81,17 @@ const CardList = () => {
         />
       ))}
     </div>
+    // <div className="w-full  bg-[#EDDBC7] p-4 flex justify-center">
+    //   <div className="w-1/2 max-w-screen-xl p-8" >
+    //     <div className="relative">
+    //       <List_custom
+    //         searchResults={pdfs}
+    //         handleUpvote={handleUpvote}
+    //         handleDownvote={handleDownvote}
+    //       />
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 

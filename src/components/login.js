@@ -17,12 +17,12 @@ const LoginForm = () => {
         variables: { username: username, password: password },
       });
 
-      const { userId, success, token } = data.signin; 
+      // const { username, success, token } = data.signin.signin; 
 
-      if (success) {
-        console.log("the token is : ", token);
-        localStorage.setItem("authToken", token);
-        localStorage.setItem("userid", userId);
+      if (data.signin.success) {
+        console.log("the username is  : ", data.signin.username);
+        localStorage.setItem("authToken", data.signin.token);
+        localStorage.setItem("username", data.signin.username);
         navigate("/");
       } else {
         console.log("Login failed.");

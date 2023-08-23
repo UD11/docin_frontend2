@@ -24,7 +24,7 @@ export const REGISTER_MUTATION = gql`
 export const LOGIN_MUTATION = gql`
   mutation Signin($username: String!, $password: String!) {
     signin(username: $username, password: $password) {
-      userId
+      username
       success
       token
     }
@@ -97,6 +97,22 @@ export const SIGNOUT_MUTATION = gql`
   mutation Signout{
     signout{
         success
+    }
+  }
+`;
+
+export const USER_POST_QUERY = gql`
+  query user_pdf {
+    searchPdfsByUser{
+      author
+      createdAt
+      description
+      downvote
+      id
+      institutionName
+      link
+      title
+      upvote
     }
   }
 `;
