@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context';
 
 const httpLink = new HttpLink({
   // uri: 'http://localhost:8000/graphql',
-  uri: 'https://docin-backend-git-master-ud11.vercel.app/graphql',
+  uri: 'https://docin-backend.vercel.app',
 });
 
 const authLink = setContext((_, { headers }) => {
