@@ -16,10 +16,8 @@ const LoginForm = () => {
       const { data } = await loginMutation({
         variables: { username: username, password: password },
       });
-
-      // const { username, success, token } = data.signin.signin; 
-
-      if (data.signin.success) {
+      
+      if (data && data.signin.success) {
         console.log("the username is  : ", data.signin.username);
         localStorage.setItem("authToken", data.signin.token);
         localStorage.setItem("username", data.signin.username);
