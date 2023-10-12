@@ -20,7 +20,6 @@ export const REGISTER_MUTATION = gql`
   }
 `;
 
-
 export const LOGIN_MUTATION = gql`
   mutation Signin($username: String!, $password: String!) {
     signin(username: $username, password: $password) {
@@ -32,33 +31,33 @@ export const LOGIN_MUTATION = gql`
 `;
 
 export const CREATE_PDF_MUTATION = gql`
-mutation CreatePDF(
-  $title: String!
-  $description: String!
-  $link: String!
-  $author: String!
-  $institution_name: String!
-) {
-  createPdf(
-    title: $title
-    description: $description
-    link: $link
-    author: $author
-    institutionName: $institution_name
+  mutation CreatePDF(
+    $title: String!
+    $description: String!
+    $link: String!
+    $author: String!
+    $institution_name: String!
   ) {
-    pdf {
-      author
-      createdAt
-      description
-      downvote
-      id
-      institutionName
-      link
-      title
-      upvote
+    createPdf(
+      title: $title
+      description: $description
+      link: $link
+      author: $author
+      institutionName: $institution_name
+    ) {
+      pdf {
+        author
+        createdAt
+        description
+        downvote
+        id
+        institutionName
+        link
+        title
+        upvote
+      }
     }
   }
-}
 `;
 export const SEARCH_QUERY = gql`
   query SearchPDF($query: String!) {
@@ -92,18 +91,17 @@ export const DOWNVOTE_QUERY = gql`
   }
 `;
 
-
 export const SIGNOUT_MUTATION = gql`
-  mutation Signout{
-    signout{
-        success
+  mutation Signout {
+    signout {
+      success
     }
   }
 `;
 
 export const USER_POST_QUERY = gql`
   query user_pdf {
-    searchPdfsByUser{
+    searchPdfsByUser {
       author
       createdAt
       description
@@ -113,6 +111,61 @@ export const USER_POST_QUERY = gql`
       link
       title
       upvote
+    }
+  }
+`;
+
+export const PDF_BY_ID = gql`
+  query GetPdfById($id: Int!) {
+    pdfById(id: $id) {
+      author
+      createdAt
+      description
+      downvote
+      id
+      institutionName
+      link
+      title
+      upvote
+    }
+  }
+`;
+export const DELETE_PDF = gql`
+  mutation DeletePDF($id: Int!) {
+    deletePdf(pdfId: $id) {
+      success
+    }
+  }
+`;
+
+export const EDIT_PDF_MUTATION = gql`
+  mutation MyMutation(
+    $pdfId: Int!
+    $author: String!
+    $description: String!
+    $institutionName: String!
+    $link: String!
+    $title: String!
+  ) {
+    editPdf(
+      pdfId: $pdfId
+      author: $author
+      description: $description
+      institutionName: $institutionName
+      link: $link
+      title: $title
+    ) {
+      pdf {
+        author
+        createdAt
+        description
+        downvote
+        id
+        institutionName
+        link
+        title
+        upvote
+      }
     }
   }
 `;

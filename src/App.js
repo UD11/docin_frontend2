@@ -7,6 +7,9 @@ import AddPage from "./components/AddPage";
 import SearchResult from "./components/SearchList";
 import LoginForm from "./components/login";
 import SignupForm from "./components/signup";
+import Article from "./components/article";
+import Addpage2 from "./components/addpage2";
+import Edit from "./components/edit";
 
 const App = () => {
   return (
@@ -17,6 +20,9 @@ const App = () => {
         <Route exact path="/search-results" element={<SearchResult />} />
         <Route exact path="/login" element={<LoginForm />} />
         <Route exact path="/signup" element={<SignupForm />} />
+        <Route path="/article/:id" element={<Article/>} />
+        <Route exact path="/addpage2" element={<Addpage2/>} />
+        <Route path="/edit/:id" element={<Edit/>} />
       </Routes>
     </BrowserRouter>
   );

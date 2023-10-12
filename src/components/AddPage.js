@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@apollo/client"; // Import useMutation from Apollo Client
+import { useMutation } from "@apollo/client";
 import { CREATE_PDF_MUTATION } from "../graphql";
-
 
 const AddPage = () => {
   const [authorName, setAuthorName] = useState("");
@@ -132,6 +131,8 @@ const AddPage = () => {
             className="mt-1 block w-full p-3 border border-[#A7727D]  shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono bg-[#F8EAD8]"
           />
         </div>
+
+        
         <div className="flex justify-end">
           <button
             onClick={handleSave}
@@ -151,6 +152,8 @@ const AddPage = () => {
             Cancel
           </button>
         </div>
+
+
       </div>
       {showSuccessModal && (
         <div className="fixed inset-0 flex items-center justify-center">

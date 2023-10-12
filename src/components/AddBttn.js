@@ -7,10 +7,10 @@ const AddButton = () => {
   const location = useLocation();
 
   const handleAddButtonClick = () => {
-    navigate("/add");
+    navigate("/addpage2");
   };
 
-  const isAddPage = location.pathname === "/add";
+  const isAddPage = location.pathname === "/addpage2";
 
   if (isAddPage) {
     return null;

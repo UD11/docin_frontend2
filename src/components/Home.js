@@ -9,15 +9,19 @@ import CardList from "./profilepost";
 
 const Home = () => {
   return (
-    <div className="bg-[#EDDBC7] min-h-screen">
-      <NavBar />
-      <Header />
-      <SearchBar />
+    <div className="bg-white min-h-screen">
       <div>
-        <CardList/>
+        <NavBar />
+        {/* <Header /> */}
+        <SearchBar />
+        <div>
+          <CardList />
+        </div>
+        <AddButton />
       </div>
-      <SocialIcons />
-      <AddButton />
+      <div className="">
+        <SocialIcons />
+      </div>
     </div>
   );
 };
